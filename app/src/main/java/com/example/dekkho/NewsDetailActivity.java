@@ -1,57 +1,51 @@
 package com.example.dekkho;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.icu.text.CaseMap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import com.squareup.picasso.Picasso;
 
 public class NewsDetailActivity extends AppCompatActivity {
 
-    String title,desc,content,imageURL,url;
-    private TextView titleTV,subDescTV,contentTV;
-    private ImageView newsIV;
-    private Button readNewsBtn;
+    String title, desc, content, imageURL, url;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
 
+        // Retrieve data from the intent
         title = getIntent().getStringExtra("title");
         desc = getIntent().getStringExtra("desc");
         content = getIntent().getStringExtra("content");
         imageURL = getIntent().getStringExtra("image");
         url = getIntent().getStringExtra("url");
-        titleTV = findViewById(R.id.idTVTitle);
-        subDescTV = findViewById(R.id.idTVSubDesc);
-        contentTV = findViewById(R.id.idTVContent);
-        newsIV = findViewById(R.id.idIVNews);
-        readNewsBtn = findViewById(R.id.idBtnReadNews);
-        titleTV.setText(title);
-        subDescTV.setText(desc);
-        contentTV.setText(content);
-        Picasso.get().load(imageURL).into(newsIV);
-        readNewsBtn.setOnClickListener(new View.OnClickListener() {
+
+        // Initialize the WebView
+        webView = findViewById(R.id.webview);
+
+        // Configure the WebView settings
+        webView.getSettings().setJavaScriptEnabled(true); // Enable JavaScript
+        webView.setWebViewClient(new WebViewClient()); // Handle links within WebView
+
+        // Load the URL
+        webView.loadUrl(url);
+
+        // Handle "Read News" button click
+        findViewById(R.id.idBtnReadNews).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-
+                // Show the WebView, hide other UI elements
+                webView.setVisibility(View.VISIBLE);
+                findViewById(R.id.idTVTitle).setVisibility(View.GONE);
+                findViewById(R.id.idTVSubDesc).setVisibility(View.GONE);
+                findViewById(R.id.idTVContent).setVisibility(View.GONE);
+                findViewById(R.id.idIVNews).setVisibility(View.GONE);
             }
         });
-
-
-
-
-
     }
 }
