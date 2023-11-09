@@ -94,6 +94,13 @@
         android:textAllCaps="false"
         app:backgroundTint="#2196F3" />
 
+    <WebView
+    android:id="@+id/webview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@id/toolbar"
+    android:layout_above="@id/idBtnReadNews" />
+
 </RelativeLayout>
 
 
